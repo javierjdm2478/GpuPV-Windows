@@ -12,14 +12,14 @@ public sealed class VendorAccentBrushConverter : IValueConverter
         return value is GpuVendor vendor
             ? vendor switch
             {
-                GpuVendor.Nvidia => new SolidColorBrush(Color.FromRgb(118, 185, 0)),
-                GpuVendor.Amd => new SolidColorBrush(Color.FromRgb(237, 28, 36)),
-                GpuVendor.Intel => new SolidColorBrush(Color.FromRgb(0, 113, 197)),
-                _ => new SolidColorBrush(Color.FromRgb(96, 165, 250))
+                GpuVendor.Nvidia => new SolidColorBrush(System.Windows.Media.Color.FromRgb(118, 185, 0)),
+                GpuVendor.Amd => new SolidColorBrush(System.Windows.Media.Color.FromRgb(237, 28, 36)),
+                GpuVendor.Intel => new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 113, 197)),
+                _ => new SolidColorBrush(System.Windows.Media.Color.FromRgb(96, 165, 250))
             }
-            : new SolidColorBrush(Color.FromRgb(96, 165, 250));
+            : new SolidColorBrush(System.Windows.Media.Color.FromRgb(96, 165, 250));
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
-        Binding.DoNothing;
+        System.Windows.Data.Binding.DoNothing;
 }

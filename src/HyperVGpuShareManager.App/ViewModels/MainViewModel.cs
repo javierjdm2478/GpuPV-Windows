@@ -535,7 +535,7 @@ public sealed class MainViewModel : ObservableObject
     private void OnLogWritten(object? sender, LogEntry entry)
     {
         var line = entry.ToString();
-        var dispatcher = Application.Current?.Dispatcher;
+        var dispatcher = System.Windows.Application.Current?.Dispatcher;
         if (dispatcher is null || dispatcher.CheckAccess())
         {
             AddLogLine(line);

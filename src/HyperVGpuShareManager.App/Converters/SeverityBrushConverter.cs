@@ -20,9 +20,9 @@ public sealed class SeverityBrushConverter : IValueConverter
             }
             : "MutedTextBrush";
 
-        return Application.Current.TryFindResource(key) as Brush ?? Brushes.Gray;
+        return System.Windows.Application.Current.TryFindResource(key) as System.Windows.Media.Brush ?? System.Windows.Media.Brushes.Gray;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
-        Binding.DoNothing;
+        System.Windows.Data.Binding.DoNothing;
 }

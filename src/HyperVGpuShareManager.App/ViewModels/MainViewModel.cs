@@ -471,7 +471,7 @@ public sealed class MainViewModel : ObservableObject
 
     private void BrowseIso()
     {
-        var dialog = new OpenFileDialog
+        var dialog = new Microsoft.Win32.OpenFileDialog
         {
             Title = "Selecciona una ISO de Windows 10 Pro",
             Filter = "ISO (*.iso)|*.iso|Todos los archivos (*.*)|*.*"

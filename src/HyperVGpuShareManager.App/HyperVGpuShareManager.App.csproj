@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>Hyper-V GPU Share Manager</AssemblyName>
+    <RootNamespace>HyperVGpuShareManager.App</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HyperVGpuShareManager.Core\HyperVGpuShareManager.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Logos\*.svg" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

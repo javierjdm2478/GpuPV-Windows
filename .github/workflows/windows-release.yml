@@ -1,0 +1,82 @@
+name: Windows Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example v0.1.0"
+        required: true
+        default: "v0.1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build Windows release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}"
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $version = "${{ inputs.version }}"
+          }
+          if (-not $version.StartsWith("v")) {
+            $version = "v$version"
+          }
+          "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Restore
+        run: dotnet restore .\HyperVGpuShareManager.sln
+
+      - name: Build
+        run: dotnet build .\HyperVGpuShareManager.sln -c Release --no-restore
+
+      - name: Run basic tests
+        run: dotnet run --project .\tests\HyperVGpuShareManager.Tests\HyperVGpuShareManager.Tests.csproj -c Release --no-build
+
+      - name: Publish win-x64
+        run: >
+          dotnet publish .\src\HyperVGpuShareManager.App\HyperVGpuShareManager.App.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:EnableCompressionInSingleFile=true
+          -o .\artifacts\HyperVGpuShareManager-win-x64
+
+      - name: Create zip
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path .\artifacts\release | Out-Null
+          Compress-Archive -Path .\artifacts\HyperVGpuShareManager-win-x64\* -DestinationPath ".\artifacts\release\HyperVGpuShareManager-${{ steps.version.outputs.value }}-win-x64.zip" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HyperVGpuShareManager-${{ steps.version.outputs.value }}-win-x64
+          path: artifacts/release/*.zip
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.value }}
+          name: Hyper-V GPU Share Manager ${{ steps.version.outputs.value }}
+          generate_release_notes: true
+          files: artifacts/release/*.zip

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160" role="img" aria-label="Intel Graphics placeholder">
+  <rect width="320" height="160" rx="20" fill="#0071C5"/>
+  <text x="160" y="82" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">INTEL</text>
+  <text x="160" y="116" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" fill="#ffffff">GRAPHICS</text>
+</svg>

@@ -1,4 +1,3 @@
-using System.Windows;
 using HyperVGpuShareManager.App.Infrastructure;
 using HyperVGpuShareManager.App.ViewModels;
 using HyperVGpuShareManager.Core.Services;
@@ -6,15 +5,15 @@ using HyperVGpuShareManager.Core.Validation;
 
 namespace HyperVGpuShareManager.App;
 
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
-    protected override async void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(System.Windows.StartupEventArgs e)
     {
         base.OnStartup(e);
 
         if (!AdminRelauncher.IsAdministrator() && AdminRelauncher.TryRelaunchElevated())
         {
-            Shutdown();
+            System.Windows.Application.Current.Shutdown();
             return;
         }
 
@@ -38,7 +37,7 @@ public partial class App : Application
             AdminRelauncher.IsAdministrator());
 
         var window = new MainWindow(viewModel);
-        MainWindow = window;
+        System.Windows.Application.Current.MainWindow = window;
         window.Show();
         await viewModel.InitializeAsync();
     }
